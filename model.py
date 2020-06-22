@@ -1,12 +1,14 @@
 # Tensorflow and tf.keras
-import tensorflow as tf
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.layers import Flatten, Dense
+from tensorflow.keras.losses import SparseCategoricalCrossentropy
+from tensorflow.keras import Sequential
 from tensorflow import keras
 
 # Helper libraries
 from joblib import dump
 from pathlib import Path
-
-print(tf.__version__)
+from datetime import datetime
 
 # Import the dataset
 fashion_mnist = keras.datasets.fashion_mnist
@@ -30,24 +32,30 @@ train_images = train_images / 255
 test_images = test_images / 255
 
 # Setup the layers for the model
-model = keras.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),  # Flatten transforms images from 28 by 28 to 784 pixels one-dim array
-    keras.layers.Dense(128, activation='relu'),  # Neural layer with 128 neurons (nodes)
-    keras.layers.Dense(10)  # Returns a logit array of len 10 in which each node contains score of one of the 10 clasess
+model = Sequential([
+    Flatten(input_shape=(28, 28)),  # Flatten transforms images from 28 by 28 to 784 pixels one-dim array
+    Dense(128, activation='relu'),  # Neural layer with 128 neurons (nodes)
+    Dense(10)  # Returns a logit array of len 10 in which each node contains score of one of the 10 clasess
 ])
 
 # Compile the model
 model.compile(
     optimizer='adam',
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss=SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy']
 )
+
+# We would like to log our results and view with Tensorboard
+log_dir = Path(Path.cwd() / "logs" / datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 # Train/fit the model
 model.fit(
     x=train_images,
     y=train_labels,
-    epochs=10
+    epochs=10,
+    validation_split=0.3,
+    callbacks=[tensorboard_callback]
 )
 
 # Save the model
