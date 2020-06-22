@@ -131,7 +131,7 @@ dmypy.json
 # Data
 *.jpg
 idenprof/
-train.pkl
+data/train.pkl
 
 # Idea files
 .idea/

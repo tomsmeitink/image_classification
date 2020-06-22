@@ -14,10 +14,10 @@ fashion_mnist = keras.datasets.fashion_mnist
 print(train_images.shape, test_images.shape)
 
 # Save the data
-with open(Path(Path.cwd() / "train.pkl"), 'wb') as f:
+with open(Path(Path.cwd() / "data/train.pkl"), 'wb') as f:
     dump({"img": train_images, "label": train_labels}, f, compress=True)
 
-with open(Path(Path.cwd() / "test.pkl"), 'wb') as f:
+with open(Path(Path.cwd() / "data/test.pkl"), 'wb') as f:
     dump({"img": test_images, "label": test_labels}, f, compress=True)
 
 # Class names
@@ -51,7 +51,7 @@ model.fit(
 )
 
 # Save the model
-model.save(str(Path(Path.cwd() / "model.h5")))
+model.save(str(Path(Path.cwd() / "model/model.h5")))
 
 # Evaluate the model
 test_loss, test_acc = model.evaluate(x=test_images, y=test_labels, verbose=2)

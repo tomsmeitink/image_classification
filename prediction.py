@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 
 
 # Load the model
-model = load_model(str(Path(Path.cwd() / "model.h5")))
+model = load_model(str(Path(Path.cwd() / "model/model.h5")))
 
 
-with open(Path(Path.cwd() / "test.pkl"), 'rb') as f:
+with open(Path(Path.cwd() / "data/test.pkl"), 'rb') as f:
     data = load(f)
     test_images, test_labels = data.get('img'), data.get('label')
 
