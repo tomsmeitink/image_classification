@@ -3,10 +3,8 @@ import tensorflow as tf
 from tensorflow import keras
 
 # Helper libraries
-import numpy as np
 from joblib import dump
 from pathlib import Path
-import matplotlib.pyplot as plt
 
 print(tf.__version__)
 
@@ -51,11 +49,9 @@ model.fit(
     y=train_labels,
     epochs=10
 )
-model.to_json()
-with open(Path(Path.cwd() / "model.json"), 'w') as f:
-    f.write(model.to_json())
 
-model.save_weights(str(Path(Path.cwd() / "model.h5")))
+# Save the model
+model.save(str(Path(Path.cwd() / "model.h5")))
 
 # Evaluate the model
 test_loss, test_acc = model.evaluate(x=test_images, y=test_labels, verbose=2)

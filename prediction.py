@@ -1,5 +1,5 @@
 import tensorflow as tf
-from keras.models import model_from_json
+from keras.models import load_model
 
 import numpy as np
 from pathlib import Path
@@ -7,11 +7,8 @@ from joblib import load
 import matplotlib.pyplot as plt
 
 
-# Load the model and weights
-with open(Path(Path.cwd() / "model.json"), 'rb') as f:
-    model = model_from_json(f.read())
-
-model.load_weights(str(Path(Path.cwd() / "model.h5")))
+# Load the model
+model = load_model(str(Path(Path.cwd() / "model.h5")))
 
 
 with open(Path(Path.cwd() / "test.pkl"), 'rb') as f:
